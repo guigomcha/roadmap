@@ -14,9 +14,50 @@
 
 ## High Level description
 
+"Roadmap" is born as the 1-year bday present for my first nephew, Jaime, which aims to create a one-to-one online experience which rewards schores with adventures
+together (we live in different cities) and useful tricks and tips to live under the family (as the younger brother, I know a few strings to pull to even discussions).
+It also aims to tell my story in his city as he discovers it.
 
+In long term I wnat it to transition into a gamified-adulting app which provides the required knowledge to live in the modern world, focusing on those issues that
+the traditional schools do not provide (unfortunately):
+- Goverment-related tasks.
+- Take benefit of your city offers and sourrounding.
+- Do not fall for the same issues that have already happened in the history.
+- Family-related nice-to-know and lessons learnt.
+- ...
 
-## Roadmap
+Then it transformed into a location-based media-storage with a few differences from other apps and keeping it very clear that **this is not another social network**. 
+Instead, it wants to be more similar to a very private family photo album and journal shared between family members. 
+- You have to physically be in a place to post something (or proof it via google-maps). The map of the world is not fully visible, you have to discover it "age-of-empire-style".
+- Your family has full access and may have provided "tips" and "memories" from their past so that when you "discover" something, you know if your parents where ever there before.
+- ...
+
+Then it also opened the posibility to be an app to assit migrants when they first arrive to a city in a new country. Gamifiying the roadmap to complete the required tasks to be part of the 
+society, providing external tools, trick and tips etc. 
+
+Why? I really want Jaime to get to the best starting-point when his adult live begins so that he can fight other battles and help beyond what most of us can do (because we need to do everything from scratch).
+- Everyone struggles with the same paperwork and issues when we get (and lose) the first job.
+- Society is not designed to simplify your life. 
+- Families do not know each other anymore but we all walk the same streets (at least during many years).
+- ...
+
+Which are the red lines here?
+- This is not a social network app that wants to know you better to sell your info and flood you with adds. 
+- It is not going to be publicly available for "all your friends". This is a close-family (family means many things) app. Each family will host their own deployment with no external access from other users.
+- ...
+
+## Planning
+
+### PoC v0.1.0
+
+The PoC aims to provide a very simple web app:
+- My family could publish memories in specific locations, sharing stories, how something has changed etc to create the future "discoverable" information for him.
+- Jaime's user will get a series of "tasks" which my family will track and complete to record in his roadmap all the "adulting" milestones.
+- My family will publish new things about what he does in the first years of his live.
+
+It won't be visually great but the mechanics will be in place
+
+### V0.2.0
 
 
 
