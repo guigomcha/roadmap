@@ -1,3 +1,4 @@
+# The Roadmap App
 
 ## Repo structure
 
@@ -39,6 +40,8 @@ Why? I really want Jaime to get to the best starting-point when his adult live b
 - Everyone struggles with the same paperwork and issues when we get (and lose) the first job.
 - Society is not designed to simplify your life. 
 - Families do not know each other anymore but we all walk the same streets (at least during many years).
+- Social media and tech industry is creating young adults who have not visited their own cities and sorroundings because they are always on their phones in a coach. This app enforces to leave and have 
+experiences that you can track.
 - ...
 
 Which are the red lines here?
@@ -48,18 +51,8 @@ Which are the red lines here?
 
 ## Planning
 
-### PoC v0.1.0
-
-The PoC aims to provide a very simple web app:
-- My family could publish memories in specific locations, sharing stories, how something has changed etc to create the future "discoverable" information for him.
-- Jaime's user will get a series of "tasks" which my family will track and complete to record in his roadmap all the "adulting" milestones.
-- My family will publish new things about what he does in the first years of his live.
-
-It won't be visually great but the mechanics will be in place
-
-### V0.2.0
-
-
+All planning is centralized in the form of github milestones and associated-issues.
+Any additional info is in the Wiki.
 
 ## Contribution
 
