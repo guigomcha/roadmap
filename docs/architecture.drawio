@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="pzxYFLB8tWOS1C601Q5d" name="General">
-        <mxGraphModel dx="767" dy="1439" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1598" dy="1807" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -167,7 +167,7 @@
                 <mxCell id="G-onO2Zc1X2UtdMwZBRN-11" value="There are pre-loaded spots with info (added by your family) which you can see and also provide your own info" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="350" y="340" width="240" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="G-onO2Zc1X2UtdMwZBRN-12" value="Your Roadmap" style="swimlane;whiteSpace=wrap;html=1;strokeColor=#006EAF;strokeWidth=5;fillColor=#1ba1e2;fontColor=#ffffff;" parent="1" vertex="1">
+                <mxCell id="G-onO2Zc1X2UtdMwZBRN-12" value="Your FamQuest" style="swimlane;whiteSpace=wrap;html=1;strokeColor=#006EAF;strokeWidth=5;fillColor=#1ba1e2;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="109" y="460" width="231" height="280" as="geometry"/>
                 </mxCell>
                 <mxCell id="G-onO2Zc1X2UtdMwZBRN-142" value="Responsabily X" style="swimlane;whiteSpace=wrap;html=1;strokeColor=#001DBC;strokeWidth=5;fillColor=#0050ef;fontColor=#ffffff;" parent="G-onO2Zc1X2UtdMwZBRN-12" vertex="1">

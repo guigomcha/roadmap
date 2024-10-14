@@ -1,4 +1,6 @@
-# The Roadmap App
+# The FamQuest App
+
+A map guiding users on an adventure to uncover family memories and history, while creating their own in a gamified quest to resolve adulting tasks.
 
 ## Repo structure
 
@@ -15,7 +17,7 @@
 
 ## High Level description
 
-"Roadmap" is born as the 1-year bday present for my first nephew, Jaime, which aims to create a one-to-one online experience which rewards schores with adventures
+"FamQuest" is born as the 1-year bday present for my first nephew, Jaime, which aims to create a one-to-one online experience which rewards schores with adventures
 together (we live in different cities) and useful tricks and tips to live under the family (as the younger brother, I know a few strings to pull to even discussions).
 It also aims to tell my story in his city as he discovers it.
 
@@ -33,7 +35,7 @@ Instead, it wants to be more similar to a very private family photo album and jo
 - Your family has full access and may have provided "tips" and "memories" from their past so that when you "discover" something, you know if your parents where ever there before.
 - ...
 
-Then it also opened the posibility to be an app to assit migrants when they first arrive to a city in a new country. Gamifiying the roadmap to complete the required tasks to be part of the 
+Then it also opened the posibility to be an app to assit migrants when they first arrive to a city in a new country. Gamifiying the FamQuest to complete the required tasks to be part of the 
 society, providing external tools, trick and tips etc. 
 
 Why? I really want Jaime to get to the best starting-point when his adult live begins so that he can fight other battles and help beyond what most of us can do (because we need to do everything from scratch).
