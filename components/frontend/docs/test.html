@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinate Transformation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Coordinate Transformation Test</h1>
+<p>This page tests the transformation of latitude/longitude to pixel coordinates and vice versa.</p>
+
+<div class="result" id="result"></div>
+
+<script>
+    // Simulated map object (replace with actual Google Maps instance when testing)
+    const map = {
+        getProjection: function() {
+            return {
+                fromLatLngToPoint: function(latLng) {
+                    // Simplified projection for testing
+                    const scale = Math.pow(2, map.getZoom());
+                    const offsetX = (latLng.lng() + 180) * (256 / 360) * scale; // Longitude to X
+                    const offsetY = (256 / 2) - (256 * Math.log(Math.tan((Math.PI / 4) + (latLng.lat() * Math.PI / 180) / 2)) / (2 * Math.PI)) * scale; // Latitude to Y
+                    return { x: offsetX, y: offsetY };
+                },
+                fromPointToLatLng: function(point) {
+                    // Corrected reverse projection for testing
+                    const lng = (point.x / (256 / 360)) - 180;
+                    const latRadians = (Math.atan(Math.exp((point.y / (256 / 2)) * 2 * Math.PI)) - Math.PI / 4) * 2; // Correct conversion for latitude
+                    const lat = latRadians * (180 / Math.PI); // Convert radians back to degrees
+                    return { lat: () => lat, lng: () => lng };
+                }
+            };
+        },
+        getCenter: function() {
+            return { lat: () => 37.3119, lng: () => -6.0467 }; // Palomares del Río
+        },
+        getZoom: function() {
+            return 14; // Example zoom level
+        }
+    };
+
+    // Transforming Area Positions to Map Coordinates
+    function latLngToPoint(lat, lng) {
+        const projection = map.getProjection();
+        const point = projection.fromLatLngToPoint({ lat: () => lat, lng: () => lng });
+        const scale = Math.pow(2, map.getZoom());
+        const offsetX = point.x - (projection.fromLatLngToPoint(map.getCenter()).x);
+        const offsetY = point.y - (projection.fromLatLngToPoint(map.getCenter()).y);
+        return {
+            x: offsetX,
+            y: offsetY
+        };
+    }
+
+    // Transforming Map Coordinates to Area Positions
+    function pointToLatLng(x, y) {
+        const scale = Math.pow(2, map.getZoom());
+        const projection = map.getProjection();
+        const center = projection.fromLatLngToPoint(map.getCenter());
+        const offsetX = (x + center.x) / scale;
+        const offsetY = (y + center.y) / scale;
+
+        // Calculate the longitude
+        const lng = (offsetX / (256 / 360)) - 180;
+        
+        // Calculate the latitude using the inverse formula
+        const latRadians = Math.atan(Math.exp((offsetY / (256 / 2)) * 2 * Math.PI)) - (Math.PI / 4);
+        const lat = latRadians * (180 / Math.PI); // Convert radians back to degrees
+        return projection.fromPointToLatLng({ x: offsetX, y: offsetY });
+    }
+
+    // Test the transformations
+    const palomaresLat = 37.3119;
+    const palomaresLng = -6.0467;
+
+    // Transform LatLng to Point
+    const point = latLngToPoint(palomaresLat, palomaresLng);
+    
+    // Transform Point back to LatLng
+    const latLng = pointToLatLng(point.x, point.y);
+
+    // Display results
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+        <h2>Transformation Results</h2>
+        <p><strong>Input Coordinates (Palomares):</strong> (${palomaresLat}, ${palomaresLng})</p>
+        <p><strong>Point (Canvas Coordinates):</strong> (${point.x.toFixed(2)}, ${point.y.toFixed(2)})</p>
+        <p><strong>LatLng (Restored Coordinates):</strong> (${latLng.lat().toFixed(4)}, ${latLng.lng().toFixed(4)})</p>
+    `;
+</script>
+
+</body>
+</html>

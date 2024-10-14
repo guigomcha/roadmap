@@ -1,22 +1,27 @@
 # Implementation decisions
 
+## Deployment 
+
+Directly over K8s in kind for practice.
+
+## Language
+
+### Frontend
+
+Good oportunity to develop a bit of javascript. React JS seems to be the easiest
+
+## Backends
+
+- Golang for Basic DB interactions: Speed, clean, learn SQL
+  + https://blog.logrocket.com/building-simple-app-go-postgresql/
+  + https://www.sqliz.com/posts/golang-gorm-postgresql/
+  + Admin UI https://github.com/techwithgates/goadmin?
+
+- Python for more complex data processing
+
 ## Database
 
 ### Redis 
-
-Redis core has the key-value store but is compatible with multiple "modules". Additionaly, redis work as a async task broker.
-
-- https://youtu.be/OqCK95AS-YE
-- https://redis.io/nosql/document-databases/
-- https://www.dragonflydb.io/guides/redis-memory-and-performance-optimization
-
-
-Nice to have:
-- Redis monitoring of key-value changes in real time + Client Side Caching
-- Timeseries
-- Automated snapshots and revocery (RBD + AOF)
-- Sharding for distributed scaling.
-- Lua scripting allows you to run complex operations directly on the Redis server. 
 
 Drawbacks:
 
@@ -26,7 +31,7 @@ Drawbacks:
 
 Decision:
 
-- Could still be used as message broker and slowly adopted for client side cache 
+- Could eventually be used as message broker and adopted for client side cache 
 
 ### PostgreSQL
 
@@ -39,3 +44,26 @@ I need an object storage in disk to optimize storage.
 - https://github.com/minio/minio
 - https://ceph.io/en/discover/technology/
 - https://www.tritondatacenter.com/triton/object-storage
+
+# Data models
+
+Relational Db based on golang structs
+
+# Workflows
+
+Start
+- Maps manager receives the map center, resolution and zoom, the user location is taken from DB:
+  + Find out what resource Ids are needed to be available in the UI
+  + Provide the location history to hide the rest of the locations
+
+Refresh periodically (and at start):
+- location sent to map manager periodically, map worker updates user location and history 
+
+Anytime:
+- User clicks and Frontend talks directly to the Db manager
+
+Open Profile:
+- Load progress bars
+
+Cronjobs:
+- request location data to load user's history

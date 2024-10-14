@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raycaster Reveal Google Map with CSV Save/Load</title>
+    <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+
+        /* Blurred static Google Map background */
+        .map-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=37.3119,-6.0467&zoom=14&size=600x400&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg'); /* Replace with your Google Maps Static API URL */
+            background-size: cover;
+            filter: blur(10px);
+            z-index: 1; /* Ensures it is behind everything else */
+        }
+
+        /* Clear interactive Google Map */
+        .map-clear {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; /* Places it above the blurred background */
+            pointer-events: none; /* Prevent interaction */
+        }
+
+        .reveal-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3; /* Places it above the maps */
+            pointer-events: none; /* Prevent interaction */
+        }
+
+        .reveal-mask canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 4; /* Keep controls above everything */
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls textarea {
+            width: 300px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Blurred static Google Map background -->
+    <div class="map-blur"></div>
+    
+    <!-- Clear interactive Google Map -->
+    <div class="map-clear" id="map"></div>
+
+    <!-- Reveal mask for showing the clear map -->
+    <div class="reveal-mask">
+        <canvas id="maskCanvas"></canvas>
+    </div>
+
+    <!-- Controls for showing, saving, and loading CSV -->
+    <div class="controls">
+        <textarea id="csvData" readonly></textarea><br/>
+        <button id="downloadCsv">Download CSV</button>
+        <input type="file" id="uploadCsv" accept=".csv">
+    </div>
+</div>
+
+<script>
+    let discoveredAreas = [];
+
+    function initMap() {
+        const mapOptions = {
+            center: { lat: 37.3119, lng: -6.0467 },  // Palomares del Río, Seville
+            zoom: 14,
+            disableDefaultUI: true,  // Hides UI to make the map cleaner
+        };
+
+        const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    }
+
+    const canvas = document.getElementById('maskCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size based on the map container
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    // Event listener to track the mouse position and reveal the clear map
+    document.addEventListener('mousemove', function (e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const radius = 50;
+
+        // Draw a circular area to reveal the map beneath the mouse
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+        ctx.fill();
+
+        // Store the discovered area (x, y, radius)
+        if (isWithinBounds(x, y, canvas.width, canvas.height)) {
+            discoveredAreas.push({ x, y, radius });
+        }
+        updateCsvDisplay();
+    });
+
+    // Fill the entire canvas with a black mask initially
+    function initializeMask() {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    initializeMask();
+
+    // Convert discovered areas to CSV format
+    function updateCsvDisplay() {
+        const csvData = discoveredAreas.map(area => `${area.x},${area.y},${area.radius}`).join('\n');
+        document.getElementById('csvData').value = csvData;
+    }
+
+    // Download CSV file
+    document.getElementById('downloadCsv').addEventListener('click', function() {
+        const csvContent = discoveredAreas.map(area => `${area.x},${area.y},${area.radius}`).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'discovered_areas.csv';
+        a.click();
+    });
+
+    // Load discovered areas from uploaded CSV
+    document.getElementById('uploadCsv').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const csvContent = e.target.result;
+                const areas = csvContent.trim().split('\n').map(line => {
+                    const [x, y, radius] = line.split(',').map(Number);
+                    return { x, y, radius };
+                });
+                discoveredAreas = areas.filter(area => isWithinBounds(area.x, area.y, canvas.width, canvas.height));  // Filter out areas outside the map
+                restoreDiscoveredAreas();
+                updateCsvDisplay();
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    // Restore discovered areas
+    function restoreDiscoveredAreas() {
+        initializeMask();  // Reset the mask
+        ctx.globalCompositeOperation = 'destination-out';
+        discoveredAreas.forEach(area => {
+            ctx.beginPath();
+            ctx.arc(area.x, area.y, area.radius, 0, Math.PI * 2, true);
+            ctx.fill();
+        });
+    }
+
+    // Helper function to check if a point is within map bounds
+    function isWithinBounds(x, y, width, height) {
+        return x >= 0 && y >= 0 && x <= width && y <= height;
+    }
+</script>
+
+<!-- Load the Google Maps JavaScript API -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap">
+</script>
+
+</body>
+</html>
