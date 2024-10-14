@@ -6,22 +6,18 @@
   - [Documentation](#documentation)
   - [API documentation](#api-documentation)
 
-# Frontend
+# User Manager
 
 ## Description
 
-The idea is to have a view of google-map which is discovered based on the location history of the user.
-
-There are several pages that need to be shown floating on top of the main webpage.
-- https://www.freecodecamp.org/news/how-work-with-restful-apis-in-react-simplified-steps-and-practical-examples/
+Backend interface for the frontend for everything related to user's preferences, metrics etc.
 
 ## Getting Started
 
 
 ### Prerequisites
 
-React JS
-
+Python 3.10
 
 ### Installation
 

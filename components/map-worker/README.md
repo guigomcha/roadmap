@@ -6,22 +6,18 @@
   - [Documentation](#documentation)
   - [API documentation](#api-documentation)
 
-# Frontend
+# Map Worker
 
 ## Description
 
-The idea is to have a view of google-map which is discovered based on the location history of the user.
-
-There are several pages that need to be shown floating on top of the main webpage.
-- https://www.freecodecamp.org/news/how-work-with-restful-apis-in-react-simplified-steps-and-practical-examples/
+K8s job that is launched when there is a request to load google maps timeline data.
 
 ## Getting Started
 
 
 ### Prerequisites
 
-React JS
-
+Python 3.10
 
 ### Installation
 

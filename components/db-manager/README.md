@@ -6,22 +6,18 @@
   - [Documentation](#documentation)
   - [API documentation](#api-documentation)
 
-# Frontend
+# DB Manager
 
 ## Description
 
-The idea is to have a view of google-map which is discovered based on the location history of the user.
-
-There are several pages that need to be shown floating on top of the main webpage.
-- https://www.freecodecamp.org/news/how-work-with-restful-apis-in-react-simplified-steps-and-practical-examples/
+Backend interface for he frontend for all the UI DBs and such.
 
 ## Getting Started
 
 
 ### Prerequisites
 
-React JS
-
+Golang 1.22
 
 ### Installation
 
