@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raycaster Reveal Google Map</title>
+    <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        /* Blurred static Google Map background */
+        .map-blur {
+            width: 600px;
+            height: 400px;
+            background-image: url('https://maps.googleapis.com/maps/api/staticmap?center=37.3119,-6.0467&zoom=14&size=600x400&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg'); /* Replace with your Google Maps Static API URL */
+            background-size: cover;
+            filter: blur(10px);
+        }
+
+        /* Clear Google Map that will be revealed */
+        .map-clear {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 600px;
+            height: 400px;
+            pointer-events: none;
+        }
+
+        .reveal-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 600px;
+            height: 400px;
+            pointer-events: none;
+        }
+
+        .reveal-mask canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Blurred static Google Map background -->
+    <div class="map-blur"></div>
+    
+    <!-- Clear interactive Google Map -->
+    <div class="map-clear" id="map"></div>
+
+    <!-- Reveal mask for showing the clear map -->
+    <div class="reveal-mask">
+        <canvas id="maskCanvas"></canvas>
+    </div>
+</div>
+
+<script>
+    function initMap() {
+        const mapOptions = {
+            center: { lat: 37.3119, lng: -6.0467 },  // Palomares coordinates
+            zoom: 12,
+            disableDefaultUI: true,  // Hides UI to make the map cleaner
+        };
+
+        const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    }
+
+    const canvas = document.getElementById('maskCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size based on the map container
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    // Event listener to track the mouse position and reveal the clear map
+    document.addEventListener('mousemove', function (e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Draw a circular area to reveal the map beneath the mouse
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 50, 0, Math.PI * 2, true);
+        ctx.fill();
+    });
+
+    // Fill the entire canvas with a black mask initially
+    function initializeMask() {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    initializeMask();
+</script>
+
+<!-- Load the Google Maps JavaScript API -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap">
+</script>
+
+</body>
+</html>
+
+
+// Get the LatLng from the pixel position
+const latLng = map.getProjection().fromPointToLatLng(
+    new google.maps.Point(x, y)
+);
